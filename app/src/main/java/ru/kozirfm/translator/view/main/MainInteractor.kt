@@ -1,6 +1,6 @@
 package ru.kozirfm.translator.view.main
 
-import ru.kozirfm.translator.presenter.Interactor
+import ru.kozirfm.translator.viewmodel.Interactor
 import ru.kozirfm.translator.model.data.DataModel
 import ru.kozirfm.translator.model.data.SearchResult
 import ru.kozirfm.translator.model.repository.Repository

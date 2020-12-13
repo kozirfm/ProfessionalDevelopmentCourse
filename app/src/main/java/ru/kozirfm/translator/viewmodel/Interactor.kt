@@ -1,4 +1,4 @@
-package ru.kozirfm.translator.presenter
+package ru.kozirfm.translator.viewmodel
 
 import io.reactivex.Observable
 

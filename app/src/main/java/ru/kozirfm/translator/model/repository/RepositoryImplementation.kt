@@ -1,14 +1,12 @@
 package ru.kozirfm.translator.model.repository
 
-import ru.kozirfm.translator.model.data.SearchResult
+import ru.kozirfm.translator.model.data.DataModel
 import ru.kozirfm.translator.model.datasource.DataSource
-import io.reactivex.Observable
-import ru.kozirfm.translator.model.repository.Repository
 
-class RepositoryImplementation(private val dataSource: DataSource<List<SearchResult>>) :
-    Repository<List<SearchResult>> {
+class RepositoryImplementation(private val dataSource: DataSource<List<DataModel>>) :
+    Repository<List<DataModel>> {
 
-    override fun getData(word: String): Observable<List<SearchResult>> {
+    override suspend fun getData(word: String): List<DataModel> {
         return dataSource.getData(word)
     }
 }

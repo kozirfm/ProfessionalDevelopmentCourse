@@ -1,26 +1,18 @@
 package ru.kozirfm.translator.application
 
-import android.app.Activity
 import android.app.Application
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import ru.kozirfm.translator.di.DaggerAppComponent
-import javax.inject.Inject
+import org.koin.core.context.startKoin
+import ru.kozirfm.translator.di.application
+import ru.kozirfm.translator.di.mainScreen
 
-class App : Application(), HasActivityInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-    override fun activityInjector(): DispatchingAndroidInjector<Activity>? {
-        return dispatchingAndroidInjector
-    }
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        DaggerAppComponent.builder()
-            .application(this)
-            .build()
-            .inject(this)
+        startKoin {
+            modules(listOf(application, mainScreen))
+        }
     }
+
+
 }

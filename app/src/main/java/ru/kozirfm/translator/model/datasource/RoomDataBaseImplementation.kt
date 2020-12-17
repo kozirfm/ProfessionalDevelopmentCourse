@@ -1,12 +1,10 @@
 package ru.kozirfm.translator.model.datasource
 
-import ru.kozirfm.translator.model.data.SearchResult
-import io.reactivex.Observable
-import ru.kozirfm.translator.model.datasource.DataSource
+import ru.kozirfm.translator.model.data.DataModel
 
-class RoomDataBaseImplementation : DataSource<List<SearchResult>> {
+class RoomDataBaseImplementation : DataSource<List<DataModel>> {
 
-    override fun getData(word: String): Observable<List<SearchResult>> {
+    override suspend fun getData(word: String): List<DataModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

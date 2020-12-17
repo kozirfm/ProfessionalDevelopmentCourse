@@ -1,13 +1,13 @@
 package ru.kozirfm.translator.utils
 
+import ru.kozirfm.translator.model.data.AppState
 import ru.kozirfm.translator.model.data.DataModel
 import ru.kozirfm.translator.model.data.Meanings
-import ru.kozirfm.translator.model.data.SearchResult
 
-fun parseSearchResults(state: DataModel): DataModel {
-    val newSearchResults = arrayListOf<SearchResult>()
+fun parseSearchResults(state: AppState): AppState {
+    val newSearchResults = arrayListOf<DataModel>()
     when (state) {
-        is DataModel.Success -> {
+        is AppState.Success -> {
             val searchResults = state.data
             if (!searchResults.isNullOrEmpty()) {
                 for (searchResult in searchResults) {
@@ -17,10 +17,10 @@ fun parseSearchResults(state: DataModel): DataModel {
         }
     }
 
-    return DataModel.Success(newSearchResults)
+    return AppState.Success(newSearchResults)
 }
 
-private fun parseResult(dataModel: SearchResult, newDataModels: ArrayList<SearchResult>) {
+private fun parseResult(dataModel: DataModel, newDataModels: ArrayList<DataModel>) {
     if (!dataModel.text.isNullOrBlank() && !dataModel.meanings.isNullOrEmpty()) {
         val newMeanings = arrayListOf<Meanings>()
         for (meaning in dataModel.meanings) {
@@ -29,7 +29,7 @@ private fun parseResult(dataModel: SearchResult, newDataModels: ArrayList<Search
             }
         }
         if (newMeanings.isNotEmpty()) {
-            newDataModels.add(SearchResult(dataModel.text, newMeanings))
+            newDataModels.add(DataModel(dataModel.text, newMeanings))
         }
     }
 }

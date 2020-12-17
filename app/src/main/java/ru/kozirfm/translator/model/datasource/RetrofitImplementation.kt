@@ -1,18 +1,17 @@
 package ru.kozirfm.translator.model.datasource
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import ru.kozirfm.translator.model.data.SearchResult
-import io.reactivex.Observable
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.kozirfm.translator.model.data.DataModel
 
-class RetrofitImplementation : DataSource<List<SearchResult>> {
+class RetrofitImplementation : DataSource<List<DataModel>> {
 
-    override fun getData(word: String): Observable<List<SearchResult>> {
-        return getService(BaseInterceptor.interceptor).search(word)
+    override suspend fun getData(word: String): List<DataModel> {
+        return getService(BaseInterceptor.interceptor).searchAsync(word).await()
     }
 
     private fun getService(interceptor: Interceptor): ApiService {
@@ -23,7 +22,7 @@ class RetrofitImplementation : DataSource<List<SearchResult>> {
         return Retrofit.Builder()
             .baseUrl(BASE_URL_LOCATIONS)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(createOkHttpClient(interceptor))
             .build()
     }

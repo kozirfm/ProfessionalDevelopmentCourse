@@ -12,7 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.search_dialog_fragment.*
 import ru.kozirfm.professionaldevelopmentcourse.R
-import ru.kozirfm.translator.utils.getEmptyString
+import ru.kozirfm.utils.getEmptyString
 
 class SearchDialogFragment : BottomSheetDialogFragment() {
 

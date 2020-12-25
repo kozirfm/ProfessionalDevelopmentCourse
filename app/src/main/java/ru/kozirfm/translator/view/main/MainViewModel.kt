@@ -4,35 +4,35 @@ import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import ru.kozirfm.translator.model.data.AppState
-import ru.kozirfm.translator.utils.parseOnlineSearchResults
-import ru.kozirfm.translator.viewmodel.BaseViewModel
+import ru.kozirfm.model.data.DataModel
+import ru.kozirfm.repository.parseOnlineSearchResults
 
 class MainViewModel(private val interactor: MainInteractor) :
-    BaseViewModel<AppState>() {
+    ru.kozirfm.core.viewmodel.BaseViewModel<DataModel>() {
 
-    private val liveDataForViewToObserve: LiveData<AppState> = _mutableLiveData
+    private val liveDataForViewToObserve: LiveData<DataModel> = _mutableLiveData
 
-    fun subscribe(): LiveData<AppState> {
+    fun subscribe(): LiveData<DataModel> {
         return liveDataForViewToObserve
     }
 
     override fun getData(word: String, isOnline: Boolean) {
-        _mutableLiveData.value = AppState.Loading(null)
+        _mutableLiveData.value = DataModel.Loading(null)
         cancelJob()
         viewModelCoroutineScope.launch { startInteractor(word, isOnline) }
     }
 
-    private suspend fun startInteractor(word: String, isOnline: Boolean) = withContext(Dispatchers.IO) {
-        _mutableLiveData.postValue(parseOnlineSearchResults(interactor.getData(word, isOnline)))
-    }
+    private suspend fun startInteractor(word: String, isOnline: Boolean) =
+        withContext(Dispatchers.IO) {
+            _mutableLiveData.postValue(parseOnlineSearchResults(interactor.getData(word, isOnline)))
+        }
 
     override fun handleError(error: Throwable) {
-        _mutableLiveData.postValue(AppState.Error(error))
+        _mutableLiveData.postValue(DataModel.Error(error))
     }
 
     override fun onCleared() {
-        _mutableLiveData.value = AppState.Success(null)
+        _mutableLiveData.value = DataModel.Success(null)
         super.onCleared()
     }
 }

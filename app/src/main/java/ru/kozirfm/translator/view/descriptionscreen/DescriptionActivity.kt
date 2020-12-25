@@ -17,8 +17,8 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_description.*
 import ru.kozirfm.professionaldevelopmentcourse.R
-import ru.kozirfm.translator.utils.network.isOnline
-import ru.kozirfm.translator.utils.ui.AlertDialogFragment
+import ru.kozirfm.utils.network.isOnline
+import ru.kozirfm.utils.ui.AlertDialogFragment
 
 class DescriptionActivity : AppCompatActivity() {
 
@@ -27,7 +27,7 @@ class DescriptionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_description)
 
         setActionbarHomeButtonAsUp()
-        description_screen_swipe_refresh_layout.setOnRefreshListener{ startLoadingOrShowError() }
+        description_screen_swipe_refresh_layout.setOnRefreshListener { startLoadingOrShowError() }
         setData()
     }
 
@@ -55,7 +55,7 @@ class DescriptionActivity : AppCompatActivity() {
             stopRefreshAnimationIfNeeded()
         } else {
             //usePicassoToLoadPhoto(description_imageview, imageLink)
-            useGlideToLoadPhoto(description_imageview, imageLink)
+            useGlideToLoadPhoto(findViewById(R.id.description_imageview), imageLink)
         }
     }
 

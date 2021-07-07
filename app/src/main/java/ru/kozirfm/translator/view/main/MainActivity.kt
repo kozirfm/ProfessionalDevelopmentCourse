@@ -7,19 +7,19 @@ import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import ru.kozirfm.core.BaseActivity
 import ru.kozirfm.professionaldevelopmentcourse.R
-import ru.kozirfm.translator.model.data.AppState
-import ru.kozirfm.translator.model.data.DataModel
-import ru.kozirfm.translator.utils.convertMeaningsToString
-import ru.kozirfm.translator.utils.network.isOnline
-import ru.kozirfm.translator.view.base.BaseActivity
+import ru.kozirfm.model.data.DataModel
+import ru.kozirfm.model.data.SearchResult
+import ru.kozirfm.repository.convertMeaningsToString
 import ru.kozirfm.translator.view.descriptionscreen.DescriptionActivity
 import ru.kozirfm.translator.view.history.HistoryActivity
 import ru.kozirfm.translator.view.main.adapter.MainAdapter
+import ru.kozirfm.utils.network.isOnline
 
 private const val BOTTOM_SHEET_FRAGMENT_DIALOG_TAG = "74a54328-5d62-46bf-ab6b-cbf5fgt0-092395"
 
-class MainActivity : BaseActivity<AppState, MainInteractor>() {
+class MainActivity : BaseActivity<DataModel, MainInteractor>() {
     override lateinit var model: MainViewModel
 
     private val adapter: MainAdapter by lazy { MainAdapter(onListItemClickListener) }
@@ -31,13 +31,13 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         }
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object : MainAdapter.OnListItemClickListener {
-            override fun onItemClick(data: DataModel) {
+            override fun onItemClick(data: SearchResult) {
                 startActivity(
                     DescriptionActivity.getIntent(
                         this@MainActivity,
                         data.text!!,
                         convertMeaningsToString(data.meanings!!),
-                        data.meanings[0].imageUrl
+                        data.meanings!![0].imageUrl
                     )
                 )
             }
@@ -61,7 +61,7 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
         initViews()
     }
 
-    override fun setDataToAdapter(data: List<DataModel>) {
+    override fun setDataToAdapter(data: List<SearchResult>) {
         adapter.setData(data)
     }
 

@@ -1,15 +1,14 @@
 package ru.kozirfm.translator.view.history
 
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_history.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import ru.kozirfm.core.BaseActivity
 import ru.kozirfm.professionaldevelopmentcourse.R
-import ru.kozirfm.translator.model.data.AppState
-import ru.kozirfm.translator.model.data.DataModel
-import ru.kozirfm.translator.view.base.BaseActivity
+import ru.kozirfm.model.data.DataModel
+import ru.kozirfm.model.data.SearchResult
 
-class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
+class HistoryActivity : BaseActivity<DataModel, HistoryInteractor>() {
 
     override lateinit var model: HistoryViewModel
     private val adapter: HistoryAdapter by lazy { HistoryAdapter() }
@@ -26,7 +25,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
         model.getData("", false)
     }
 
-    override fun setDataToAdapter(data: List<DataModel>) {
+    override fun setDataToAdapter(data: List<SearchResult>) {
         adapter.setData(data)
     }
 
@@ -36,7 +35,7 @@ class HistoryActivity : BaseActivity<AppState, HistoryInteractor>() {
         }
         val viewModel: HistoryViewModel by viewModel()
         model = viewModel
-        model.subscribe().observe(this@HistoryActivity, Observer<AppState> { renderData(it) })
+        model.subscribe().observe(this@HistoryActivity, { renderData(it) })
     }
 
     private fun initViews() {

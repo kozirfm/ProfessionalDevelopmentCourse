@@ -1,0 +1,21 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+}
+
+dependencies {
+
+    implementation project(Modules.model)
+    implementation project(Modules.utils)
+
+    implementation(Coroutines.coroutines_core)
+    implementation(Coroutines.coroutines_android)
+    implementation(Kotlin.stdlib)
+    implementation(Kotlin.core)
+    implementation(Design.appcompat)
+
+    testImplementation(TestImpl.junit)
+    androidTestImplementation(TestImpl.espresso)
+    androidTestImplementation(TestImpl.test_ext)
+}
